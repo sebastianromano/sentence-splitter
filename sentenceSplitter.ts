@@ -1,3 +1,5 @@
+import * as readline from 'readline';
+
 const commonAbbreviations = [
   'Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.',
   'etc.', 'i.e.', 'e.g.', 'vs.', 'viz.',
@@ -36,12 +38,41 @@ function splitIntoSentences(text: string): string[] {
 }
 
 function main() {
-  const text = "Hello, Dr. Smith! How are you? I hope you're doing well. Let's meet at 2 p.m. tomorrow, i.e., after lunch. We can discuss the project, etc. Does that work for you?";
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-  const sentences = splitIntoSentences(text);
-  console.log("Sentences:");
-  sentences.forEach((sentence, index) => {
-    console.log(`${index + 1}. ${sentence}`);
+  console.log("Welcome to the Sentence Splitter!");
+  console.log("Enter your text below. Press Enter twice to process the input.");
+  console.log("To exit the program, type 'exit' and press Enter.");
+
+  let inputText = '';
+
+  rl.on('line', (line) => {
+    if (line.toLowerCase() === 'exit') {
+      rl.close();
+      return;
+    }
+
+    if (line === '') {
+      if (inputText.trim() !== '') {
+        const sentences = splitIntoSentences(inputText);
+        console.log("\nSplit Sentences:");
+        sentences.forEach((sentence, index) => {
+          console.log(`${index + 1}. ${sentence}`);
+        });
+        console.log("\nEnter your next text or type 'exit' to quit:");
+        inputText = '';
+      }
+    } else {
+      inputText += line + ' ';
+    }
+  });
+
+  rl.on('close', () => {
+    console.log('Thank you for using the Sentence Splitter. Goodbye!');
+    process.exit(0);
   });
 }
 

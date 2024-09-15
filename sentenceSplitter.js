@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var readline = require("readline");
 var commonAbbreviations = [
     'Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.',
     'etc.', 'i.e.', 'e.g.', 'vs.', 'viz.',
@@ -31,11 +34,37 @@ function splitIntoSentences(text) {
     }).filter(Boolean);
 }
 function main() {
-    var text = "Hello, Dr. Smith! How are you? I hope you're doing well. Let's meet at 2 p.m. tomorrow, i.e., after lunch. We can discuss the project, etc. Does that work for you?";
-    var sentences = splitIntoSentences(text);
-    console.log("Sentences:");
-    sentences.forEach(function (sentence, index) {
-        console.log("".concat(index + 1, ". ").concat(sentence));
+    var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    console.log("Welcome to the Sentence Splitter!");
+    console.log("Enter your text below. Press Enter twice to process the input.");
+    console.log("To exit the program, type 'exit' and press Enter.");
+    var inputText = '';
+    rl.on('line', function (line) {
+        if (line.toLowerCase() === 'exit') {
+            rl.close();
+            return;
+        }
+        if (line === '') {
+            if (inputText.trim() !== '') {
+                var sentences = splitIntoSentences(inputText);
+                console.log("\nSplit Sentences:");
+                sentences.forEach(function (sentence, index) {
+                    console.log("".concat(index + 1, ". ").concat(sentence));
+                });
+                console.log("\nEnter your next text or type 'exit' to quit:");
+                inputText = '';
+            }
+        }
+        else {
+            inputText += line + ' ';
+        }
+    });
+    rl.on('close', function () {
+        console.log('Thank you for using the Sentence Splitter. Goodbye!');
+        process.exit(0);
     });
 }
 main();
