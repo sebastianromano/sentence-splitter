@@ -33,15 +33,10 @@ function splitIntoSentences(text) {
             return protectedAbbr;
         });
     });
-    // Step 2: Split sentences while keeping the ending punctuation
-    var sentenceEndPattern = /([.!?])(\s+|$)/g;
-    var rawSentences = protectedText.split(sentenceEndPattern);
-    // Step 3: Pair sentences with their ending punctuation
-    var sentences = [];
-    for (var i = 0; i < rawSentences.length - 1; i += 2) {
-        sentences.push(rawSentences[i] + (rawSentences[i + 1] || ''));
-    }
-    // Step 4: Restore abbreviations and clean up
+    // Step 2: Split sentences
+    var sentenceEndPattern = /(?<=[.!?])\s+/g;
+    var sentences = protectedText.split(sentenceEndPattern);
+    // Step 3: Restore abbreviations and clean up
     return sentences.map(function (sentence) {
         var restoredSentence = sentence.trim();
         abbrMap.forEach(function (original, protectedAbbr) {

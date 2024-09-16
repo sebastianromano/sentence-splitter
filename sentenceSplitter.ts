@@ -34,17 +34,11 @@ function splitIntoSentences(text: string): string[] {
     });
   });
 
-  // Step 2: Split sentences while keeping the ending punctuation
-  const sentenceEndPattern = /([.!?])(\s+|$)/g;
-  const rawSentences = protectedText.split(sentenceEndPattern);
+  // Step 2: Split sentences
+  const sentenceEndPattern = /(?<=[.!?])\s+/g;
+  const sentences = protectedText.split(sentenceEndPattern);
 
-  // Step 3: Pair sentences with their ending punctuation
-  const sentences: string[] = [];
-  for (let i = 0; i < rawSentences.length - 1; i += 2) {
-    sentences.push(rawSentences[i] + (rawSentences[i + 1] || ''));
-  }
-
-  // Step 4: Restore abbreviations and clean up
+  // Step 3: Restore abbreviations and clean up
   return sentences.map(sentence => {
     let restoredSentence = sentence.trim();
     abbrMap.forEach((original, protectedAbbr) => {
