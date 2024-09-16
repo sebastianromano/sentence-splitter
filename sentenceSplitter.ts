@@ -1,5 +1,3 @@
-import * as readline from 'readline';
-
 const commonAbbreviations = [
   'adr.', 'afs.', 'alm.', 'alt.', 'aut.',
   'bl.a.', 'bla.', 'ca.', 'd.', 'div.',
@@ -52,43 +50,14 @@ function splitIntoSentences(text: string): string[] {
   }).filter(Boolean);
 }
 
-function main() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+document.getElementById('splitButton')?.addEventListener('click', () => {
+  const inputText = (document.getElementById('inputText') as HTMLTextAreaElement).value;
+  const sentences = splitIntoSentences(inputText);
+  const outputList = document.getElementById('outputList') as HTMLUListElement;
+  outputList.innerHTML = '';
+  sentences.forEach((sentence, index) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = `${index + 1}. ${sentence}`;
+    outputList.appendChild(listItem);
   });
-
-  console.log("Welcome to the Sentence Splitter!");
-  console.log("Enter your text below. Press Enter twice to process the input.");
-  console.log("To exit the program, type 'exit' and press Enter.");
-
-  let inputText = '';
-
-  rl.on('line', (line) => {
-    if (line.toLowerCase() === 'exit') {
-      rl.close();
-      return;
-    }
-
-    if (line === '') {
-      if (inputText.trim() !== '') {
-        const sentences = splitIntoSentences(inputText);
-        console.log("\nSplit Sentences:");
-        sentences.forEach((sentence, index) => {
-          console.log(`${index + 1}. ${sentence}`);
-        });
-        console.log("\nEnter your next text or type 'exit' to quit:");
-        inputText = '';
-      }
-    } else {
-      inputText += line + ' ';
-    }
-  });
-
-  rl.on('close', () => {
-    console.log('Thank you for using the Sentence Splitter. Goodbye!');
-    process.exit(0);
-  });
-}
-
-main();
+});

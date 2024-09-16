@@ -1,11 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var readline = require("readline");
+var _a;
 var commonAbbreviations = [
-    'Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.',
-    'etc.', 'i.e.', 'e.g.', 'vs.', 'viz.',
-    'St.', 'Jr.', 'Sr.', 'Inc.', 'Ltd.',
-    'a.m.', 'p.m.'
+    'adr.', 'afs.', 'alm.', 'alt.', 'aut.',
+    'bl.a.', 'bla.', 'ca.', 'd.', 'div.',
+    'dr.', 'd.s.s.', 'dvs.', 'd.v.s.', 'eks.',
+    'el.', 'e.l.', 'etc.', 'evt.', 'fhv.',
+    'fr.', 'frk.', 'f.t.', 'p.t.', 'fx.',
+    'f.eks.', 'gl.', 'hhv.', 'hr.', 'if.',
+    'ifm.', 'i.f.m.', 'ift.', 'i.f.t.', 'inkl.',
+    'jf.', 'kbh.', 'kg.', 'kl.', 'km.',
+    'km/t.', 'kr.', 'lejl.', 'm.', 'maks.',
+    'm.a.o.', 'md.', 'mdl.', 'mdr.', 'm.fl.',
+    'mfl.', 'm.h.t.', 'mht.', 'm.h.p.', 'mhp.',
+    'ml.', 'mm.', 'm.m.', 'modt.', 'm.v.', 'mvh.', 'm.v.h.',
+    'nb.', 'nr.', 'o.a.', 'oa.', 'obs.',
+    'o.l.', 'ol.', 'osv.', 'p.a.', 'pct.',
+    'pga.', 'pkt.', 'pl.', 'pr.', 'ps.',
+    'p.s.', 's.', 'str.', 'stk.', 's.u.',
+    't.h.', 'th.', 't.o.m.', 't.v.', 'tv.',
+    'ugtl.', 'v.', 'vedl.', 'vedr.', 'vha.',
+    'vsa.'
 ];
 function splitIntoSentences(text) {
     // Step 1: Protect abbreviations
@@ -33,38 +46,14 @@ function splitIntoSentences(text) {
         return restoredSentence;
     }).filter(Boolean);
 }
-function main() {
-    var rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
+(_a = document.getElementById('splitButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
+    var inputText = document.getElementById('inputText').value;
+    var sentences = splitIntoSentences(inputText);
+    var outputList = document.getElementById('outputList');
+    outputList.innerHTML = '';
+    sentences.forEach(function (sentence, index) {
+        var listItem = document.createElement('li');
+        listItem.textContent = "".concat(index + 1, ". ").concat(sentence);
+        outputList.appendChild(listItem);
     });
-    console.log("Welcome to the Sentence Splitter!");
-    console.log("Enter your text below. Press Enter twice to process the input.");
-    console.log("To exit the program, type 'exit' and press Enter.");
-    var inputText = '';
-    rl.on('line', function (line) {
-        if (line.toLowerCase() === 'exit') {
-            rl.close();
-            return;
-        }
-        if (line === '') {
-            if (inputText.trim() !== '') {
-                var sentences = splitIntoSentences(inputText);
-                console.log("\nSplit Sentences:");
-                sentences.forEach(function (sentence, index) {
-                    console.log("".concat(index + 1, ". ").concat(sentence));
-                });
-                console.log("\nEnter your next text or type 'exit' to quit:");
-                inputText = '';
-            }
-        }
-        else {
-            inputText += line + ' ';
-        }
-    });
-    rl.on('close', function () {
-        console.log('Thank you for using the Sentence Splitter. Goodbye!');
-        process.exit(0);
-    });
-}
-main();
+});
