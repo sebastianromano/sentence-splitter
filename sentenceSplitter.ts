@@ -58,11 +58,12 @@ function splitIntoSentences(text: string): string[] {
 document.getElementById('splitButton')?.addEventListener('click', () => {
   const inputText = (document.getElementById('inputText') as HTMLTextAreaElement).value;
   const sentences = splitIntoSentences(inputText);
-  const outputList = document.getElementById('outputList') as HTMLUListElement;
-  outputList.innerHTML = '';
-  sentences.forEach((sentence, index) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `${index + 1}. ${sentence}`;
-    outputList.appendChild(listItem);
-  });
+  const outputText = document.getElementById('outputText') as HTMLTextAreaElement;
+  outputText.value = sentences.join('\n');
+});
+
+document.getElementById('copyButton')?.addEventListener('click', () => {
+  const outputText = document.getElementById('outputText') as HTMLTextAreaElement;
+  outputText.select();
+  document.execCommand('copy');
 });

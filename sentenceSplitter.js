@@ -1,4 +1,4 @@
-var _a;
+var _a, _b;
 var commonAbbreviations = [
     'adr.', 'afs.', 'alm.', 'alt.', 'aut.',
     'bl.a.', 'bla.', 'ca.', 'd.', 'div.',
@@ -54,11 +54,11 @@ function splitIntoSentences(text) {
 (_a = document.getElementById('splitButton')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () {
     var inputText = document.getElementById('inputText').value;
     var sentences = splitIntoSentences(inputText);
-    var outputList = document.getElementById('outputList');
-    outputList.innerHTML = '';
-    sentences.forEach(function (sentence, index) {
-        var listItem = document.createElement('li');
-        listItem.textContent = "".concat(index + 1, ". ").concat(sentence);
-        outputList.appendChild(listItem);
-    });
+    var outputText = document.getElementById('outputText');
+    outputText.value = sentences.join('\n');
+});
+(_b = document.getElementById('copyButton')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () {
+    var outputText = document.getElementById('outputText');
+    outputText.select();
+    document.execCommand('copy');
 });
