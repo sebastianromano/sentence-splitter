@@ -30,7 +30,7 @@ function splitIntoSentences(text: string): string[] {
   });
 
   // Step 2: Split sentences while keeping the ending punctuation
-  const sentenceEndPattern = /([.!?])\s+/g;
+  const sentenceEndPattern = /([.!?])(\s+|$)/g;
   const rawSentences = protectedText.split(sentenceEndPattern);
 
   // Step 3: Pair sentences with their ending punctuation

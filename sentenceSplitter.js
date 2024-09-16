@@ -29,7 +29,7 @@ function splitIntoSentences(text) {
         protectedText = protectedText.replace(regex, "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index));
     });
     // Step 2: Split sentences while keeping the ending punctuation
-    var sentenceEndPattern = /([.!?])\s+/g;
+    var sentenceEndPattern = /([.!?])(\s+|$)/g;
     var rawSentences = protectedText.split(sentenceEndPattern);
     // Step 3: Pair sentences with their ending punctuation
     var sentences = [];
