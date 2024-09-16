@@ -107,7 +107,7 @@
             'p.s.', 's.', 'str.', 'stk.', 's.u.',
             't.h.', 'th.', 't.o.m.', 't.v.', 'tv.',
             'ugtl.', 'v.', 'vedl.', 'vedr.', 'vha.',
-            'vsa.', 'mio.', 'mia.', 'ekskl.', 'lok.', 'max.', 'lign'
+            'vsa.', 'mio.', 'mia.', 'ekskl.', 'lok.', 'max.', 'lign.'
         ];
 
         function splitIntoSentences(text) {
@@ -155,7 +155,7 @@
             const inputText = document.getElementById('inputText').value;
             const sentences = splitIntoSentences(inputText);
             const outputText = document.getElementById('outputText');
-            outputText.value = sentences.join('\n');
+            outputText.value = sentences.join('\n\n');
         });
 
         document.getElementById('copyButton').addEventListener('click', () => {
