@@ -124,15 +124,27 @@
                 });
             });
 
-            // Step 2: Split sentences
+            // Step 2: Protect numbers followed by a period
+            const numberMap = new Map();
+            protectedText = protectedText.replace(/(\d+)\./g, (match, p1, offset) => {
+                const protectedNumber = `NUMBER_PROTECTED_PERIOD${offset}`;
+                numberMap.set(protectedNumber, match);
+                return protectedNumber;
+            });
+
+            // Step 3: Split sentences
             const sentenceEndPattern = /(?<=[.!?])\s+/g;
             const sentences = protectedText.split(sentenceEndPattern);
 
-            // Step 3: Restore abbreviations and clean up
+            // Step 4: Restore abbreviations and numbers, and clean up
             return sentences.map(sentence => {
                 let restoredSentence = sentence.trim();
                 abbrMap.forEach((original, protectedAbbr) => {
                     const regex = new RegExp(protectedAbbr, 'g');
+                    restoredSentence = restoredSentence.replace(regex, original);
+                });
+                numberMap.forEach((original, protectedNumber) => {
+                    const regex = new RegExp(protectedNumber, 'g');
                     restoredSentence = restoredSentence.replace(regex, original);
                 });
                 return restoredSentence;
