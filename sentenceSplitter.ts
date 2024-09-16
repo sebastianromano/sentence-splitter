@@ -1,10 +1,25 @@
 import * as readline from 'readline';
 
 const commonAbbreviations = [
-  'Dr.', 'Mr.', 'Mrs.', 'Ms.', 'Prof.',
-  'etc.', 'i.e.', 'e.g.', 'vs.', 'viz.',
-  'St.', 'Jr.', 'Sr.', 'Inc.', 'Ltd.',
-  'a.m.', 'p.m.'
+  'adr.', 'afs.', 'alm.', 'alt.', 'aut.',
+  'bl.a.', 'bla.', 'ca.', 'd.', 'div.',
+  'dr.', 'd.s.s.', 'dvs.', 'd.v.s.', 'eks.',
+  'el.', 'e.l.', 'etc.', 'evt.', 'fhv.',
+  'fr.', 'frk.', 'f.t.', 'p.t.', 'fx.',
+  'f.eks.', 'gl.', 'hhv.', 'hr.', 'if.',
+  'ifm.', 'i.f.m.', 'ift.', 'i.f.t.', 'inkl.',
+  'jf.', 'kbh.', 'kg.', 'kl.', 'km.',
+  'km/t.', 'kr.', 'lejl.', 'm.', 'maks.',
+  'm.a.o.', 'md.', 'mdl.', 'mdr.', 'm.fl.',
+  'mfl.', 'm.h.t.', 'mht.', 'm.h.p.', 'mhp.',
+  'ml.', 'mm.', 'm.m.', 'modt.', 'm.v.', 'mvh.', 'm.v.h.',
+  'nb.', 'nr.', 'o.a.', 'oa.', 'obs.',
+  'o.l.', 'ol.', 'osv.', 'p.a.', 'pct.',
+  'pga.', 'pkt.', 'pl.', 'pr.', 'ps.',
+  'p.s.', 's.', 'str.', 'stk.', 's.u.',
+  't.h.', 'th.', 't.o.m.', 't.v.', 'tv.',
+  'ugtl.', 'v.', 'vedl.', 'vedr.', 'vha.',
+  'vsa.'
 ];
 
 function splitIntoSentences(text: string): string[] {
