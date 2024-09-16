@@ -23,10 +23,15 @@ const commonAbbreviations = [
 function splitIntoSentences(text: string): string[] {
   // Step 1: Protect abbreviations
   let protectedText = text;
+  const abbrMap = new Map<string, string>();
   commonAbbreviations.forEach((abbr, index) => {
     const safeAbbr = abbr.replace('.', '\\.');
     const regex = new RegExp(`\\b${safeAbbr}(?=\\s|$)`, 'gi');
-    protectedText = protectedText.replace(regex, `${abbr.slice(0, -1)}PROTECTED_PERIOD${index}`);
+    protectedText = protectedText.replace(regex, match => {
+      const protectedAbbr = `${abbr.slice(0, -1)}PROTECTED_PERIOD${index}`;
+      abbrMap.set(protectedAbbr, match);
+      return protectedAbbr;
+    });
   });
 
   // Step 2: Split sentences while keeping the ending punctuation
@@ -42,10 +47,9 @@ function splitIntoSentences(text: string): string[] {
   // Step 4: Restore abbreviations and clean up
   return sentences.map(sentence => {
     let restoredSentence = sentence.trim();
-    commonAbbreviations.forEach((abbr, index) => {
-      const protectedAbbr = `${abbr.slice(0, -1)}PROTECTED_PERIOD${index}`;
-      const regex = new RegExp(protectedAbbr, 'gi');
-      restoredSentence = restoredSentence.replace(regex, abbr);
+    abbrMap.forEach((original, protectedAbbr) => {
+      const regex = new RegExp(protectedAbbr, 'g');
+      restoredSentence = restoredSentence.replace(regex, original);
     });
     return restoredSentence;
   }).filter(Boolean);

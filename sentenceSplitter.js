@@ -23,10 +23,15 @@ var commonAbbreviations = [
 function splitIntoSentences(text) {
     // Step 1: Protect abbreviations
     var protectedText = text;
+    var abbrMap = new Map();
     commonAbbreviations.forEach(function (abbr, index) {
         var safeAbbr = abbr.replace('.', '\\.');
         var regex = new RegExp("\\b".concat(safeAbbr, "(?=\\s|$)"), 'gi');
-        protectedText = protectedText.replace(regex, "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index));
+        protectedText = protectedText.replace(regex, function (match) {
+            var protectedAbbr = "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index);
+            abbrMap.set(protectedAbbr, match);
+            return protectedAbbr;
+        });
     });
     // Step 2: Split sentences while keeping the ending punctuation
     var sentenceEndPattern = /([.!?])(\s+|$)/g;
@@ -39,10 +44,9 @@ function splitIntoSentences(text) {
     // Step 4: Restore abbreviations and clean up
     return sentences.map(function (sentence) {
         var restoredSentence = sentence.trim();
-        commonAbbreviations.forEach(function (abbr, index) {
-            var protectedAbbr = "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index);
-            var regex = new RegExp(protectedAbbr, 'gi');
-            restoredSentence = restoredSentence.replace(regex, abbr);
+        abbrMap.forEach(function (original, protectedAbbr) {
+            var regex = new RegExp(protectedAbbr, 'g');
+            restoredSentence = restoredSentence.replace(regex, original);
         });
         return restoredSentence;
     }).filter(Boolean);
