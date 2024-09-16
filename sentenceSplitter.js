@@ -25,7 +25,7 @@ function splitIntoSentences(text) {
     var protectedText = text;
     commonAbbreviations.forEach(function (abbr, index) {
         var safeAbbr = abbr.replace('.', '\\.');
-        var regex = new RegExp("\\b".concat(safeAbbr, "(?=\\s|$)"), 'g');
+        var regex = new RegExp("\\b".concat(safeAbbr, "(?=\\s|$)"), 'gi');
         protectedText = protectedText.replace(regex, "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index));
     });
     // Step 2: Split sentences while keeping the ending punctuation
@@ -41,7 +41,8 @@ function splitIntoSentences(text) {
         var restoredSentence = sentence.trim();
         commonAbbreviations.forEach(function (abbr, index) {
             var protectedAbbr = "".concat(abbr.slice(0, -1), "PROTECTED_PERIOD").concat(index);
-            restoredSentence = restoredSentence.replace(new RegExp(protectedAbbr, 'g'), abbr);
+            var regex = new RegExp(protectedAbbr, 'gi');
+            restoredSentence = restoredSentence.replace(regex, abbr);
         });
         return restoredSentence;
     }).filter(Boolean);

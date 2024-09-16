@@ -25,7 +25,7 @@ function splitIntoSentences(text: string): string[] {
   let protectedText = text;
   commonAbbreviations.forEach((abbr, index) => {
     const safeAbbr = abbr.replace('.', '\\.');
-    const regex = new RegExp(`\\b${safeAbbr}(?=\\s|$)`, 'g');
+    const regex = new RegExp(`\\b${safeAbbr}(?=\\s|$)`, 'gi');
     protectedText = protectedText.replace(regex, `${abbr.slice(0, -1)}PROTECTED_PERIOD${index}`);
   });
 
@@ -44,7 +44,8 @@ function splitIntoSentences(text: string): string[] {
     let restoredSentence = sentence.trim();
     commonAbbreviations.forEach((abbr, index) => {
       const protectedAbbr = `${abbr.slice(0, -1)}PROTECTED_PERIOD${index}`;
-      restoredSentence = restoredSentence.replace(new RegExp(protectedAbbr, 'g'), abbr);
+      const regex = new RegExp(protectedAbbr, 'gi');
+      restoredSentence = restoredSentence.replace(regex, abbr);
     });
     return restoredSentence;
   }).filter(Boolean);
